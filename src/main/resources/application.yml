@@ -1,0 +1,6 @@
+## YAML Template.
+logging:
+  level:
+    org.springframework: ERROR
+server:
+    port: 19000
