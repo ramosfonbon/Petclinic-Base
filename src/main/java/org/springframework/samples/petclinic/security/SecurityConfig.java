@@ -67,14 +67,15 @@ public class SecurityConfig {
                                 "/**/favicon.ico",
                                 "/**/*.html",
                                 "/**/*.css",
-                                "/**/*.js",
-                                "/**/*.xlsx"
+                                "/**/*.js"
+
 
 
                         )
                         .antMatchers(
                                 HttpMethod.POST,
-                                "/user"
+                                "/user",
+                                "/owners/**"
                         )
                 ;
             ;
