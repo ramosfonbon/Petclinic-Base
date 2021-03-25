@@ -21,9 +21,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.samples.petclinic.security.JWTAuthorizationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -46,29 +48,55 @@ public class PetClinicApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+}
+/*
 
     @EnableWebSecurity
     @Configuration
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+        @Order(2)
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
-                .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .antMatchers(
-                    "/js/**",
-                    "/css/**",
-                    "/img/**",
-                    "/resources/**",
-                    "/static/**",
-                    "/webjars/**").permitAll()
-                .antMatchers("/API/**").access("hasAuthority('ROLE_USER')");
+                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .authorizeRequests()
+                    .antMatchers(HttpMethod.POST, "/user").permitAll()
+                    .antMatchers(
+                            "/js/**",
+                            "/css/**",
+                            "/img/**",
+                            "/resources/**",
+                            "/static/**",
+                            "/webjars/**").permitAll()
+                    .antMatchers("/API/**").access("hasAuthority('ROLE_USER')");
 
 
-                //.anyRequest().anonymous();
+
+
+            //.anyRequest().anonymous();
         }
     }
 
-}
+    @EnableWebSecurity
+    @Order(1)
+    @Configuration
+    public  class ApiConfiguration extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            // form login
+            http
+                    .formLogin()
+                    .and()
+                    .authorizeRequests().antMatchers("/owners/**").authenticated()
+                    ;
+                   // .and()
+                   // .authorizeRequests().antMatchers("/**").permitAll();
+        }
+
+    }
+*/
+
+
+
