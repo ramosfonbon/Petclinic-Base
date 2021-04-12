@@ -69,8 +69,6 @@ public class SecurityConfig {
                                 "/**/*.css",
                                 "/**/*.js"
 
-
-
                         )
                         .antMatchers(
                                 HttpMethod.POST,
