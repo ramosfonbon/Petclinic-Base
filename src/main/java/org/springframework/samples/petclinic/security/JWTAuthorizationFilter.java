@@ -43,7 +43,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-            return;
+
         }
     }
 
@@ -60,7 +60,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
     private void setUpSpringAuthentication(Claims claims) {
         @SuppressWarnings("unchecked")
         List<String> authorities = (List<String>) claims.get("authorities");
-
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
             authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
