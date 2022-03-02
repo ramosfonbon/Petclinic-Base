@@ -18,6 +18,7 @@ package org.springframework.samples.petclinic.vet;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +37,9 @@ class VetAPIController {
         this.vets = clinicService;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping({ "/API/vetsJSON" })
-    public @ResponseBody VetsJSON showResourcesVetListJSON() {
+     public @ResponseBody VetsJSON showResourcesVetListJSON() {
         // Here we are returning an object of type 'Vets' rather than a collection of Vet
         // objects so it is simpler for JSon/Object mapping
         VetsJSON vets = new VetsJSON();
@@ -54,6 +56,7 @@ class VetAPIController {
         return vets;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping({ "/API/vetsJSON/{vetId}" })
     public @ResponseBody
     Vet showResourcesVetJSON(@PathVariable("vetId") int vetId) {
