@@ -73,7 +73,8 @@ public class SecurityConfig {
                         .antMatchers(
                                 HttpMethod.POST,
                                 "/user",
-                                "/owners/**"
+                                "/owners/**",
+                                "/user/JSON"
                         )
                 ;
             ;

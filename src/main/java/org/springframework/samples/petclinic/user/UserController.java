@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,13 +19,27 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserController {
 
     @PostMapping("/user")
-    public UserDTO login(@RequestParam("user") String username, @RequestParam("password") String pwd) {
+    public UserDTO login(@RequestParam("user") String username,
+                         @RequestParam("password") String pwd) {
 
+        // validar con la BD
+        // bcrypt
         String token = getJWTToken(username);
         UserDTO user = new UserDTO();
         user.setUser(username);
         user.setToken(token);
         return user;
+
+    }
+
+
+    @PostMapping("/user/JSON")
+    public UserDTO login(@RequestBody UserDTO userDTO) {
+        // vaidacion con la BD
+        String token = getJWTToken(userDTO.getUser());
+
+        userDTO.setToken(token);
+        return userDTO;
 
     }
 
